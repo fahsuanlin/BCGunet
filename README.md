@@ -4,6 +4,9 @@ Ballistocardiogram (BCG) is the induced electric potentials caused by heartbeats
 
 This project aims at using machine learning approaches to suppress BCG artifacts. We will use Unet as the artificual neural network structure to tackle this challenge.
 
+![](https://github.com/fahsuanlin/BCGunet/blob/master/images/alpha_obs.png)
+![](https://github.com/fahsuanlin/BCGunet/blob/master/images/alpha_unet.png)
+
 ## Data
 
 Data were EEG time series collected inside a 3T MRI scanner (Skyra, Siemens). EEG were sampled by a 32-channel systemm (Brain Products) with electrodes arranged by the international 10-20 standard. EEG were sampled at 5,000 Hz.
@@ -24,7 +27,7 @@ During the recording, the MRI scanner did not collect any images. No so-called "
 sfreq=5000;
 mean(abs(inverse_waveletcoef(10,double(EEG),sfreq,5)),2);
 ```
-[A sample script]() of calculating alpha-band oscillations across subjects and between conditions.
+[A sample script](https://github.com/fahsuanlin/BCGunet/blob/main/matlab/calc_alpha_unet.m) of calculating alpha-band oscillations across subjects and between conditions.
 
 
 - Rendering (Matlab): tools to render EEG data over a scalp.
