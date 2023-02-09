@@ -4,8 +4,7 @@ Ballistocardiogram (BCG) is the induced electric potentials caused by heartbeats
 
 This project aims at using machine learning approaches to suppress BCG artifacts. We will use Unet as the artificual neural network structure to tackle this challenge.
 
-![](https://github.com/fahsuanlin/BCGunet/blob/main/images/alpha_obs.png)
-![](https://github.com/fahsuanlin/BCGunet/blob/main/images/alpha_unet.png)
+![](https://github.com/fahsuanlin/BCGunet/blob/main/images/alpha_annot.png)
 
 ## Data
 
