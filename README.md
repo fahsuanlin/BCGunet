@@ -23,4 +23,6 @@ During the recording, the MRI scanner did not collect any images. No so-called "
 - Rendering (Matlab): tools to render EEG data over a scalp.
 
 ## External resources.
-An RNN-type BCG artifact suppression method can be found [here](https://github.com/jiaangyao/BCGNet)
+- A conventional PCA-based BCG suppression method using [Optimal Basis Sets (OBS)](https://www.sciencedirect.com/science/article/abs/pii/S1053811905004726?via%3Dihub).
+- An RNN-type BCG artifact suppression method can be found [here](https://github.com/jiaangyao/BCGNet)
+
