@@ -18,7 +18,14 @@ During the recording, the MRI scanner did not collect any images. No so-called "
 
 - [Unet basic structure and BCG suppression (Python)](https://github.com/fahsuanlin/BCGunet/blob/main/bcg_unet/unet1d-simple.ipynb): perform BCG suppression by Unet, including training and testing of data from the same subject.
 
-- Assessment (Matlab): Calculate the alpha-band (10-Hz) power at all EEG electrodes. We expect that stronger alpha-band neural oscillations are found at the parietal lobe of the subject when he/she closed eyes than opened eyes after successful BCG artifact suppression.
+- Assessment (Matlab): Calculate the alpha-band (10-Hz) power at all EEG electrodes. We expect that stronger alpha-band neural oscillations are found at the parietal lobe of the subject when he/she closed eyes than opened eyes after successful BCG artifact suppression. Download [our toolbox](https://github.com/fahsuanlin/fhlin_toolbox) to use the  function in the following codes.
+
+```
+sfreq=5000;
+mean(abs(inverse_waveletcoef(10,double(EEG),sfreq,5)),2);
+```
+
+The above codes calculates the average of 10-Hz oscillatory power across all EEG channels (in columns; with data stored in `EEG`) using the Morlet wavelet transform with 5-cycle. EEG data were sampled at 5,000 Hz denoted by `sfreq` variable.
 
 - Rendering (Matlab): tools to render EEG data over a scalp.
 
