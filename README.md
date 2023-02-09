@@ -16,7 +16,7 @@ During the recording, the MRI scanner did not collect any images. No so-called "
 - Data input (Matlab): read EEG data. Each EEG recording has three files with .eeg, .vmrk, and .vhdr file suffix. 
 **NOTE** Do not change the file names because data are associated with the file name.
 
-- [Unet basic structure and BCG suppression (Python)] (https://github.com/fahsuanlin/BCGunet/blob/main/bcg_unet/unet1d-simple.ipynb): perform BCG suppression by Unet, including training and testing of data from the same subject.
+- [Unet basic structure and BCG suppression (Python)](https://github.com/fahsuanlin/BCGunet/blob/main/bcg_unet/unet1d-simple.ipynb): perform BCG suppression by Unet, including training and testing of data from the same subject.
 
 - Assessment (Matlab): Calculate the alpha-band (10-Hz) power at all EEG electrodes. We expect that stronger alpha-band neural oscillations are found at the parietal lobe of the subject when he/she closed eyes than opened eyes after successful BCG artifact suppression.
 
