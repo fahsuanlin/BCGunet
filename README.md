@@ -42,4 +42,4 @@ etc_render_topo('vol_vertex',verts_osc,'vol_face',faces_osc-1,'topo_vertex',vert
 ## External resources.
 - A conventional PCA-based BCG suppression method using [Optimal Basis Sets (OBS)](https://www.sciencedirect.com/science/article/abs/pii/S1053811905004726?via%3Dihub).
 - An RNN-type BCG artifact suppression method can be found [here](https://github.com/jiaangyao/BCGNet)
-
+- [Our BCG suppression protocol](https://github.com/fahsuanlin/labmanual/wiki/18.-Suppression-of-ballistocardiography-artifacts-in-EEG-collected-inside-MRI)
