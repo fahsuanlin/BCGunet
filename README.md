@@ -13,8 +13,8 @@ Each subject had two sessions of data. One was "eyes-open" and the other was "ey
 During the recording, the MRI scanner did not collect any images. No so-called "gradient artifacts" caused by the swithcing of the imaging gradient coils of MRI was present.
 
 ## Code
-- Data input (Matlab): read EEG data. Each EEG recording has three files with .eeg, .vmrk, and .vhdr file suffix. 
-**NOTE** Do not change the file names because data are associated with the file name.
+- [Data input (Matlab)](https://github.com/fahsuanlin/BCGunet/blob/main/matlab/read_eeg.m): An example of reading EEG data. Each EEG recording has three files with .eeg, .vmrk, and .vhdr file suffix. Supply the .vmrk and .vmrk file names to read data into Matlab.
+**NOTE**: Do not change the file names because data are associated with the file name.
 
 - [Unet basic structure and BCG suppression (Python)](https://github.com/fahsuanlin/BCGunet/blob/main/bcg_unet/unet1d-simple.ipynb): perform BCG suppression by Unet, including training and testing of data from the same subject.
 
