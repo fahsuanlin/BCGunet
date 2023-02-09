@@ -31,7 +31,7 @@ mean(abs(inverse_waveletcoef(10,double(EEG),sfreq,5)),2);
 
 - Rendering (Matlab): tools to render EEG data over a scalp.
 
-Use the [EEG topolgoy definition fiile]() to draw 10-Hz power distribution. Download [our toolbox](https://github.com/fahsuanlin/fhlin_toolbox) to use the  function in the following codes.
+Use the [EEG topolgoy definition fiile](https://github.com/fahsuanlin/BCGunet/blob/main/matlab/bem.mat) to draw 10-Hz power distribution. Download [our toolbox](https://github.com/fahsuanlin/fhlin_toolbox) to use the  function in the following codes.
 ```
 etc_render_topo('vol_vertex',verts_osc,'vol_face',faces_osc-1,'topo_vertex',verts_osc_electrode_idx-1,'topo_stc',mean(EEG_unet_close,2)./mean(EEG_unet_open,2),'topo_smooth',10,'topo_threshold',[1.25 1.5],'topo_stc_timevec_unit','Hz','view_angle',[0 50]);
 ```
