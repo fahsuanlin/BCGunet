@@ -122,7 +122,14 @@ def morlet_psd(signal, sample_rate=5000, freq=10, wavelet='morl'):
     import pywt
 
     # Define the wavelet and scales to be used
-    scale = pywt.frequency2scale('morl', freq/sample_rate)
+
+    scales = np.arange(sample_rate)
+    freqs = pywt.scale2frequency('morl', scales) * sample_rate
+    indx = np.argmin(abs(freqs - freq))
+    
+    scale = scales[indx]
+
+    #scale = pywt.frequency2scale('morl', freq/sample_rate)
 
     # Calculate the wavelet coefficients
     coeffs, freq = pywt.cwt(signal, scale, wavelet, 1/sample_rate)
