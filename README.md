@@ -14,6 +14,9 @@ Data were EEG time series collected inside a 3T MRI scanner (Skyra, Siemens). EE
 A tar ball is [here](https://drive.google.com/file/d/1Te94WlQ4nGCT3rnij_w0pbPFhRcaphGJ/view?usp=share_link). Each subject had two sessions of data. One was "eyes-open" and the other was "eyes-closed", where subjects were instructed laying in the MRI without falling sleep but keeping their eyes open and closed, respectively. This is a resting-state recording. 
 During the recording, the MRI scanner did not collect any images. No so-called "gradient artifacts" caused by the swithcing of the imaging gradient coils of MRI was present.
 
+### Steady-state visual evoked potential (SSVEP)
+Check [this page](https://github.com/fahsuanlin/labmanual/wiki/21.-Sample-data:-Steady-state-visual-potential) for some details.
+
 ## Code
 - [Data input (Matlab)](https://github.com/fahsuanlin/BCGunet/blob/main/matlab/read_eeg.m): An example of reading EEG data. Each EEG recording has three files with .eeg, .vmrk, and .vhdr file suffix. Supply the .vmrk and .vmrk file names to read data into Matlab. Need functions at [bvaloader](https://github.com/stefanSchinkel/bvaloader).
 
@@ -21,7 +24,9 @@ During the recording, the MRI scanner did not collect any images. No so-called "
 
 - [Unet basic structure and BCG suppression (Python)](https://github.com/fahsuanlin/BCGunet/blob/main/bcg_unet/unet1d-simple.ipynb): perform BCG suppression by Unet, including training and testing of data from the same subject.
 
-- Assessment (Matlab): Calculate the alpha-band (10-Hz) power at all EEG electrodes. We expect that stronger alpha-band neural oscillations are found at the parietal lobe of the subject when he/she closed eyes than opened eyes after successful BCG artifact suppression. Download [our toolbox](https://github.com/fahsuanlin/fhlin_toolbox) to use the function in the following codes to calculate the average of 10-Hz oscillatory power across all EEG channels (in columns; with data stored in `EEG`) using the Morlet wavelet transform with 5-cycle. EEG data were sampled at 5,000 Hz denoted by `sfreq` variable.
+- Assessment (Matlab): 
+
+-- Alpha oscillations in eyes-closed vs. eyes-opened conditions: Calculate the alpha-band (10-Hz) power at all EEG electrodes. We expect that stronger alpha-band neural oscillations are found at the parietal lobe of the subject when he/she closed eyes than opened eyes after successful BCG artifact suppression. Download [our toolbox](https://github.com/fahsuanlin/fhlin_toolbox) to use the function in the following codes to calculate the average of 10-Hz oscillatory power across all EEG channels (in columns; with data stored in `EEG`) using the Morlet wavelet transform with 5-cycle. EEG data were sampled at 5,000 Hz denoted by `sfreq` variable.
 
 ```
 sfreq=5000;
@@ -40,6 +45,7 @@ etc_render_topo('vol_vertex',verts_osc,'vol_face',faces_osc-1,'topo_vertex',vert
 ```
 
 ## Resources
+- [Our lab routine](https://github.com/fahsuanlin/labmanual/wiki/18.-Suppression-of-ballistocardiography-artifacts-in-EEG-collected-inside-MRI) in BCG suppression.
 - A conventional PCA-based BCG suppression method using [Optimal Basis Sets (OBS)](https://www.sciencedirect.com/science/article/abs/pii/S1053811905004726?via%3Dihub).
 - An RNN-type BCG artifact suppression method can be found [here](https://github.com/jiaangyao/BCGNet)
 - [Our BCG suppression protocol](https://github.com/fahsuanlin/labmanual/wiki/18.-Suppression-of-ballistocardiography-artifacts-in-EEG-collected-inside-MRI)
