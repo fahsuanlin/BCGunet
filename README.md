@@ -16,7 +16,7 @@ During the recording, the MRI scanner did not collect any images. No so-called "
 
 [This tar ball](https://drive.google.com/file/d/1Hfu5w0-CT6p3g82yXIp-7wIi6921DW4m/view?usp=share_link) includes the EEG data taken *outside* MRI, including "eyes-open" and "eyes-closed" conditions. In other words, these data can be taken as the gold standard to see how much alpha oscillation power increased when eyes were closed.
 
-The more complicated case is that when MRI was collecting the data. This imposed a strong "gradient artifacts" over EEG. Thus it takes extra efforts to deal with both gradient artifacts and BCG artifacts at the same time. [Here]() is the file with concurrent MRI-EEG when echo-planar imaging was used. Note that the gradient artifacts in these data have been suppressed already.
+The more complicated case is that when MRI was collecting the data. This imposed a strong "gradient artifacts" over EEG. Thus it takes extra efforts to deal with both gradient artifacts and BCG artifacts at the same time. [Here](https://drive.google.com/file/d/1oZAjCnec73ErwkuMxulUv_v3XipMZ7N_/view?usp=sharing) is the file with concurrent MRI-EEG when echo-planar imaging was used. Note that the gradient artifacts in these data have been suppressed already.
 
 ### Steady-state visual evoked potential (SSVEP)
 Check [this page](https://github.com/fahsuanlin/labmanual/wiki/21.-Sample-data:-Steady-state-visual-potential) for some details.
