@@ -14,6 +14,10 @@ Data were EEG time series collected inside a 3T MRI scanner (Skyra, Siemens). EE
 A tar ball is [here](https://drive.google.com/file/d/1Te94WlQ4nGCT3rnij_w0pbPFhRcaphGJ/view?usp=share_link). Each subject had two sessions of data. One was "eyes-open" and the other was "eyes-closed", where subjects were instructed laying in the MRI without falling sleep but keeping their eyes open and closed, respectively. This is a resting-state recording. 
 During the recording, the MRI scanner did not collect any images. No so-called "gradient artifacts" caused by the swithcing of the imaging gradient coils of MRI was present.
 
+[This tar ball](https://drive.google.com/file/d/1Hfu5w0-CT6p3g82yXIp-7wIi6921DW4m/view?usp=share_link) includes the EEG data taken *outside* MRI, including "eyes-open" and "eyes-closed" conditions. In other words, these data can be taken as the gold standard to see how much alpha oscillation power increased when eyes were closed.
+
+The more complicated case is that when MRI was collecting the data. This imposed a strong "gradient artifacts" over EEG. Thus it takes extra efforts to deal with both gradient artifacts and BCG artifacts at the same time. [Here]() is the file with concurrent MRI-EEG when echo-planar imaging was used. Note that the gradient artifacts in these data have been suppressed already.
+
 ### Steady-state visual evoked potential (SSVEP)
 Check [this page](https://github.com/fahsuanlin/labmanual/wiki/21.-Sample-data:-Steady-state-visual-potential) for some details.
 
