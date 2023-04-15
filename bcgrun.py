@@ -83,6 +83,7 @@ def main():
         ffs = glob.glob(args.input[0])
 
     short_ffs = remove_common_substrings(ffs)
+    print(f'Total files: {len(ffs)}')
     for ii in range(len(ffs)):
         f = ffs[ii]
         short_f = short_ffs[ii]
@@ -93,7 +94,7 @@ def main():
             f_output = os.path.basename(f).replace('.mat', '_unet.mat')
         ff_output = os.path.join(f_output_dir, f_output)
 
-        print(f'Processing {f}.....')
+        print(f'{ii}: Processing {f}.....')
         # to create shorter filename for multiple mat files
         
         t = time.time()
