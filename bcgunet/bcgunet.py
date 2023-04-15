@@ -5,7 +5,6 @@ import random
 import torch
 import torch.nn as nn
 import time
-import matplotlib.pyplot as plt
 import tqdm
 from scipy.signal import butter, sosfilt
 from .unet import UNet1d
