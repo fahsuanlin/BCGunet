@@ -34,7 +34,7 @@ jobs:
         pip install torch --index-url https://download.pytorch.org/whl/cpu 
     - name: Run Pyinstaller
       run: |
-        pyinstaller -c -p ./bcgunet -F bcgrun.py
+        pyinstaller -c -p ./ -F bcgrun.py
         
     - uses: actions/upload-artifact@v3
       with:
