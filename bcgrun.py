@@ -13,6 +13,8 @@ def main():
     parser.add_argument('-o', '--output', default=None, help='Output Path')
     args = parser.parse_args()
 
+    print('Starting BCGunet.....')
+
     f = h5py.File(args.input, 'r')
     ECG = np.array(f['ECG']).flatten()
     EEG = np.array(f['EEG_before_bcg']).T
