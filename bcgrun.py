@@ -15,7 +15,56 @@ import os
 import difflib
 
 
+
+import os
+import difflib
+
+
 def shorten_filename(strings):
+    # Initialize a list to store the modified strings
+    modified_strings = []
+    
+    # Iterate through each string in the list
+    for s in strings:
+        # Replace the os.sep character with an underscore
+        modified_string = s.replace(os.sep, '_')
+        modified_strings.append(modified_string)
+    
+    # Initialize a list to store the duplicated substrings
+    duplicates = []
+    
+    # Iterate through each pair of modified strings
+    for i in range(len(modified_strings)):
+        for j in range(i+1, len(modified_strings)):
+            # Use SequenceMatcher to find the longest matching substring
+            matcher = difflib.SequenceMatcher(None, modified_strings[i], modified_strings[j])
+            matches = matcher.get_matching_blocks()
+            
+            # Extract the matching substrings from the modified strings
+            for match in matches:
+                if match.size > 0:
+                    substring = modified_strings[i][match.a:match.a+match.size]
+                    duplicates.append(substring)
+                    
+                    # Replace the duplicated substring with an empty string
+                    modified_strings[i] = modified_strings[i].replace(substring, '')
+                    modified_strings[j] = modified_strings[j].replace(substring, '')
+    
+    # Remove duplicates from the list
+    duplicates = list(set(duplicates))
+    
+    # Initialize a list to store the differences
+    differences = []
+    
+    # Iterate through each modified string and append the non-empty differences
+    for s in modified_strings:
+        if len(s) > 0:
+            differences.append(s)
+    
+    return differences
+
+
+def shorten_filenamex(strings):
     # Initialize a list to store the modified strings
     modified_strings = []
 
@@ -73,6 +122,13 @@ def main():
     short_ffs = shorten_filename(ffs)
     for ii in range(len(ffs)):
         f = ffs[ii]
+
+        if len(ffs) > 1:
+            f_output = short_f.replace('.mat', '_unet.mat')
+        else:
+            f_output = os.path.basename(f).replace('.mat', '_unet.mat')
+        ff_output = os.path.join(f_output_dir, f_output)
+
         print(f'Processing {f}.....')
         # to create shorter filename for multiple mat files
         short_f = short_ffs[ii]
@@ -86,11 +142,7 @@ def main():
         result = dict()
         result['EEG_clean'] = EEG_unet
 
-        if len(ffs) > 1:
-            f_output = short_f.replace('.mat', '_unet.mat')
-        else:
-            f_output = os.path.basename(f).replace('.mat', '_unet.mat')
-        ff_output = os.path.join(f_output_dir, f_output)
+
 
         savemat(ff_output, result, do_compression=True)
 
