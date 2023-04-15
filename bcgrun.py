@@ -59,20 +59,7 @@ def main():
     args = parser.parse_args()
 
 
-    #The following is for preparing the output directory
-    #If the user provides an output directory and it does not exist, create it for them
-    #If not provided, the default output directory is the folder of the input file
-
-
-
-    f_output_dir = args.output
-
-    if f_output_dir is None:
-        f_output_dir = os.path.dirname(os.path.abspath(f))
-    else:
-        os.makedirs(f_output_dir, exist_ok=True)
-
-    #Additionally, if the input file is a folder or contains an asterisk
+    # if the input file is a folder or contains an asterisk
     # use the glob function to find all input files.
 
     ffs = args.input
@@ -88,13 +75,24 @@ def main():
         f = ffs[ii]
         short_f = short_ffs[ii]
 
+        #The following is for preparing the output directory
+        #If the user provides an output directory and it does not exist, create it for them
+        #If not provided, the default output directory is the folder of the input file
+
+        f_output_dir = args.output
+
+        if f_output_dir is None:
+            f_output_dir = os.path.dirname(os.path.abspath(f))
+        else:
+            os.makedirs(f_output_dir, exist_ok=True)
+
         if len(ffs) > 1:
             f_output = short_f.replace('.mat', '_unet.mat')
         else:
             f_output = os.path.basename(f).replace('.mat', '_unet.mat')
         ff_output = os.path.join(f_output_dir, f_output)
 
-        print(f'{ii}: Processing {f}.....')
+        print(f'{ii + 1}: Processing {f}.....')
         # to create shorter filename for multiple mat files
         
         t = time.time()
