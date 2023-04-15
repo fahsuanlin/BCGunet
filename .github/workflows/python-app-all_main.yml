@@ -30,7 +30,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip        
-        pip install requirements.txt
+        pip install torch numpy h5py scipy
     - name: Run Pyinstaller
       run: |
         pyinstaller -c -p ./bcgunet -F bcgrun.py
