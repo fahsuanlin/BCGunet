@@ -3,6 +3,8 @@ from scipy.io import savemat
 import h5py
 from bcgunet import bcgunet
 import argparse
+import platform
+import os
 
 def main():
       
