@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class DoubleConv(nn.Module):
     """(convolution => [BN] => ReLU) * 2"""
 
@@ -15,12 +16,13 @@ class DoubleConv(nn.Module):
             nn.ReLU(inplace=True),
             nn.Conv1d(mid_channels, out_channels, kernel_size=3, padding=1),
             nn.GroupNorm(num_groups=4, num_channels=out_channels),
-            nn.ReLU(inplace=True)
+            nn.ReLU(inplace=True),
         )
 
     def forward(self, x):
         return self.double_conv(x)
-    
+
+
 class DoubleConvX(nn.Module):
     """(convolution => [BN] => ReLU) * 2"""
 
@@ -34,12 +36,11 @@ class DoubleConvX(nn.Module):
             nn.ReLU(inplace=True),
             nn.Conv1d(mid_channels, out_channels, kernel_size=15, padding=7),
             nn.GroupNorm(num_groups=8, num_channels=out_channels),
-            nn.ReLU(inplace=True)
+            nn.ReLU(inplace=True),
         )
 
     def forward(self, x):
         return self.double_conv(x)
-
 
 
 class Down(nn.Module):
@@ -48,8 +49,7 @@ class Down(nn.Module):
     def __init__(self, in_channels, out_channels):
         super().__init__()
         self.maxpool_conv = nn.Sequential(
-            nn.MaxPool1d(2),
-            DoubleConv(in_channels, out_channels)
+            nn.MaxPool1d(2), DoubleConv(in_channels, out_channels)
         )
 
     def forward(self, x):
@@ -62,11 +62,9 @@ class Up(nn.Module):
     def __init__(self, in_channels, out_channels):
         super().__init__()
 
-        self.up = nn.Upsample(
-            scale_factor=2, mode='linear', align_corners=True)
+        self.up = nn.Upsample(scale_factor=2, mode="linear", align_corners=True)
         self.conv = DoubleConv(in_channels, out_channels, in_channels // 2)
 
-    
     def forward(self, x1, x2):
         x1 = self.up(x1)
         # input is CHW
@@ -118,3 +116,8 @@ class UNet1d(nn.Module):
         x = self.up4(x, x1)
         logits = self.outc(x)
         return logits
+
+
+if __name__ == "__main__":
+    model = UNet1d(1, 1)
+    print(model)
