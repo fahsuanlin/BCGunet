@@ -7,17 +7,7 @@ import platform
 import os
 import time
 import glob
-
-import difflib
-
-
 import os
-import difflib
-
-
-
-import os
-import difflib
 
 
 def remove_common_substrings(strings):
@@ -44,40 +34,52 @@ def remove_common_substrings(strings):
         result.append(new_string)
 
     # Join the parts of the strings using os.sep
-    return ['_'.join(parts) for parts in result]
-
-
-
+    return ["_".join(parts) for parts in result]
 
 
 def main():
-    print('Starting BCGunet.....')
-      
     parser = argparse.ArgumentParser()
-    parser.add_argument('input', nargs='+', type=str, help='Input mat file')
-    parser.add_argument('-o', '--output', default=None, help='Output Path')
+    parser.add_argument("input", nargs="+", type=str, help="Input mat file")
+    parser.add_argument("-o", "--output", default=None, help="Output Path")
+    parser.add_argument(
+        "-i", "--iteration", default=5000, type=int, help="Number of iterations"
+    )
+    parser.add_argument(
+        "-l", "--learning-rate", default=1e-3, type=float, help="Learning rate"
+    )
+    parser.add_argument(
+        "-w", "--window-size", default=2, type=int, help="Window size (seconds)"
+    )
+    parser.add_argument(
+        "-noc",
+        "--no-one-cycle",
+        action="store_true",
+        help="Disable one cycle scheduler",
+    )
     args = parser.parse_args()
 
+    print(f"Settings: {args}")
+    print("Starting BCGunet.....")
 
     # if the input file is a folder or contains an asterisk
     # use the glob function to find all input files.
 
     ffs = args.input
     if os.path.isdir(args.input[0]):
-        ffs = glob.glob(os.path.join(args.input[0], '*.mat'))
+        ffs = glob.glob(os.path.join(args.input[0], "*.mat"))
 
-    elif '*' in args.input[0]:
+    elif "*" in args.input[0]:
         ffs = glob.glob(args.input[0])
 
     short_ffs = remove_common_substrings(ffs)
-    print(f'Total files: {len(ffs)}')
+    print(f"Total files: {len(ffs)}")
     for ii in range(len(ffs)):
         f = ffs[ii]
         short_f = short_ffs[ii]
 
-        #The following is for preparing the output directory
-        #If the user provides an output directory and it does not exist, create it for them
-        #If not provided, the default output directory is the folder of the input file
+        # The following is for preparing the output directory
+        # If the user provides an output directory and it does not exist, create it for them
+        # If not provided, the default output directory is the folder of the input file
 
         f_output_dir = args.output
 
@@ -87,36 +89,38 @@ def main():
             os.makedirs(f_output_dir, exist_ok=True)
 
         if len(ffs) > 1:
-            f_output = short_f.replace('.mat', '_unet.mat')
+            f_output = short_f.replace(".mat", "_unet.mat")
         else:
-            f_output = os.path.basename(f).replace('.mat', '_unet.mat')
+            f_output = os.path.basename(f).replace(".mat", "_unet.mat")
         ff_output = os.path.join(f_output_dir, f_output)
 
-        print(f'{ii + 1}: Processing {f}.....')
+        print(f"{ii + 1}: Processing {f}.....")
         # to create shorter filename for multiple mat files
-        
+
         t = time.time()
-        mat = h5py.File(f, 'r')
-        ECG = np.array(mat['ECG']).flatten()
-        EEG = np.array(mat['EEG_before_bcg']).T
+        mat = h5py.File(f, "r")
+        ECG = np.array(mat["ECG"]).flatten()
+        EEG = np.array(mat["EEG_before_bcg"]).T
 
         # (input_eeg, input_ecg, sfreq=5000, iter_num=5000, winsize_sec=2, lr=1e-3, onecycle=True)
-        EEG_unet = bcgunet.run(EEG, ECG)
+        EEG_unet = bcgunet.run(
+            EEG,
+            ECG,
+            iter_num=args.iteration,
+            winsize_sec=args.window_size,
+            lr=args.learning_rate,
+            onecycle=not args.no_one_cycle,
+        )
         result = dict()
-        result['EEG_clean'] = EEG_unet
-
-
+        result["EEG_clean"] = EEG_unet
 
         savemat(ff_output, result, do_compression=True)
 
-        print('Writing output:', ff_output)
-        print('Processing time: %d seconds' % (time.time() - t))
-    
-
+        print("Writing output:", ff_output)
+        print("Processing time: %d seconds" % (time.time() - t))
 
 
 if __name__ == "__main__":
     main()
-    if platform.system() == 'Windows':
-        os.system('pause')
-
+    if platform.system() == "Windows":
+        os.system("pause")
