@@ -53,8 +53,7 @@ def main():
     parser.add_argument(
         "-noc",
         "--no-one-cycle",
-        default=False,
-        action=argparse.BooleanOptionalAction,
+        action="store_true",
         help="Disable one cycle scheduler",
     )
     args = parser.parse_args()
