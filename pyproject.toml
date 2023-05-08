@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "bcgunet"
+version = "0.0.0"
+description = "BCGunet: Suppressing BCG artifacts on EEG collected inside an MRI scanner"
+authors = [
+    "Fa-Hsuan Lin <fahsuanlin@gmail.com>",
+    "htylab <10368378+htylab@users.noreply.github.com>",
+    "JacobLinCool <jacoblincool@gmail.com>"
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.10.0"
+torch = "^2.0.0"
+numpy = "^1.24.2"
+scikit-learn = "^1.2.1"
+h5py = "^3.8.0"
+pywavelets = "^1.4.1"
+matplotlib = "^3.7.0"
+tqdm = "^4.64.1"
+gradio = "^3.27.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.1.0"
+ipykernel = "^6.21.2"
+jupyterlab = "^3.6.1"
+pyinstaller = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
