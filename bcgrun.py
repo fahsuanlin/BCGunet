@@ -56,6 +56,21 @@ def main():
         action="store_true",
         help="Disable one cycle scheduler",
     )
+    parser.add_argument(
+        "--ecg", default="ECG", type=str, help="Variable name for ECG (input)"
+    )
+    parser.add_argument(
+        "--bce",
+        default="EEG_before_bcg",
+        type=str,
+        help="Variable name for BCG corropted EEG (input)",
+    )
+    parser.add_argument(
+        "--eeg",
+        default="EEG_clean",
+        type=str,
+        help="Variable name for clean EEG (output)",
+    )
     args = parser.parse_args()
 
     print(f"Settings: {args}")
@@ -99,8 +114,8 @@ def main():
 
         t = time.time()
         mat = h5py.File(f, "r")
-        ECG = np.array(mat["ECG"]).flatten()
-        EEG = np.array(mat["EEG_before_bcg"]).T
+        ECG = np.array(mat[args.ecg]).flatten()
+        EEG = np.array(mat[args.bce]).T
 
         # (input_eeg, input_ecg, sfreq=5000, iter_num=5000, winsize_sec=2, lr=1e-3, onecycle=True)
         EEG_unet = bcgunet.run(
@@ -112,7 +127,7 @@ def main():
             onecycle=not args.no_one_cycle,
         )
         result = dict()
-        result["EEG_clean"] = EEG_unet
+        result[args.eeg] = EEG_unet
 
         savemat(ff_output, result, do_compression=True)
 
