@@ -1,0 +1,22 @@
+name: Sync to Hugging Face Spaces
+
+on:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+
+jobs:
+    sync-to-spaces:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+                  lfs: true
+
+            - name: Push to HF Spaces
+              run: chmod +x ./scripts/sync.sh && ./scripts/sync.sh
+              env:
+                  HF_TOKEN: ${{ secrets.HF_TOKEN }}
+                  HF_USER: ${{ secrets.HF_USER }}
