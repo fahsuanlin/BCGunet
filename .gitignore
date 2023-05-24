@@ -133,3 +133,5 @@ dmypy.json
 data/
 **/.DS_Store
 tmp/
+
+spaces/

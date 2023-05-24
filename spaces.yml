@@ -1,0 +1,12 @@
+---
+title: BCGunet
+emoji: 🧠
+colorFrom: yellow
+colorTo: orange
+sdk: gradio
+app_file: bcgrun_web.py
+python_version: "3.10"
+sdk_version: "3.27.0"
+pinned: false
+---
+
