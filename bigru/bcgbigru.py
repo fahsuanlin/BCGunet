@@ -6,7 +6,7 @@ import torch.nn as nn
 import time
 import tqdm
 from scipy.signal import butter, sosfilt
-from .unet import UNet1d
+from .bigru import BiGRU
 
 
 def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
@@ -58,7 +58,7 @@ def run(
 
     torch.cuda.empty_cache()
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    NET = UNet1d(n_channels=1, n_classes=eeg_channel, nfilter=8).to(device)
+    NET = BiGRU(n_channels=1, n_classes=eeg_channel).to(device)
     optimizer = torch.optim.Adam(NET.parameters(), lr=lr)
     optimizer.zero_grad()
     maxlen = ecg.size
@@ -82,8 +82,8 @@ def run(
         count += 1
         ECG = ecg[index : (index + window)]
         EEG = eeg_filtered[:, index : (index + window)]
-        ECG_d = torch.from_numpy(ECG[None, ...][None, ...]).to(device).float()
-        EEG_d = torch.from_numpy(EEG[None, ...]).to(device).float()
+        ECG_d = torch.from_numpy(ECG[None, ...][None, ...]).to(device).float().permute(2,0,1)
+        EEG_d = torch.from_numpy(EEG[None, ...]).to(device).float().permute(2,0,1)
 
         # step 3: forward path of UNET
         logits = NET(ECG_d)
@@ -105,11 +105,11 @@ def run(
     EEG = eeg_filtered
     # ECG = norm(butter_bandpass_filter(data['ECG'], 0.5, 20, sfreq))
     ECG = ecg
-    ECG_d = torch.from_numpy(ECG[None, ...][None, ...]).to(device).float()
-    EEG_d = torch.from_numpy(EEG[None, ...]).to(device).float()
+    ECG_d = torch.from_numpy(ECG[None, ...][None, ...]).to(device).float().permute(2,0,1)
+    EEG_d = torch.from_numpy(EEG[None, ...]).to(device).float().permute(2,0,1)
     with torch.no_grad():
         logits = NET(ECG_d)
-    BCG_pred = logits.cpu().detach().numpy()[0, ...]
+    BCG_pred = logits.cpu().detach().numpy()[0, ...].reshape(eeg_channel,-1)
 
     neweeg = EEG - BCG_pred + baseline
 
