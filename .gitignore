@@ -130,7 +130,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-dataset/
+data/
 **/.DS_Store
 tmp/
 
