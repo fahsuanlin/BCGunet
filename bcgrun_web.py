@@ -7,14 +7,25 @@ import os
 import time
 import os
 import gradio as gr
+import matplotlib
+import matplotlib.pyplot as plt
+
+matplotlib.use("agg")
 
 dir = os.path.dirname(os.path.realpath(__file__)) + "/tmp"
 os.makedirs(dir, exist_ok=True)
 
 
 def run(
-    files: list[bytes], lr: float, winsec: int, iters: int, onecycle: bool
-) -> list[str]:
+    files: list[bytes],
+    lr: float,
+    winsec: int,
+    iters: int,
+    onecycle: bool,
+    ecg: str,
+    bce: str,
+    eeg: str,
+) -> tuple[list[str], str]:
     task = os.path.join(dir, str(int(time.time())))
     os.makedirs(task)
 
@@ -28,8 +39,8 @@ def run(
         output = os.path.join(task, str(i) + "_clean.mat")
 
         mat = h5py.File(input, "r")
-        ECG = np.array(mat["ECG"]).flatten()
-        EEG = np.array(mat["EEG_before_bcg"]).T
+        ECG = np.array(mat[ecg]).flatten()
+        EEG = np.array(mat[bce]).T
 
         EEG_unet = bcgunet.run(
             EEG,
@@ -40,12 +51,22 @@ def run(
             onecycle=onecycle,
         )
         result = dict()
-        result["EEG_clean"] = EEG_unet
+        result[eeg] = EEG_unet
 
         savemat(output, result, do_compression=True)
         outputs.append(output)
 
-    return outputs
+        if i == 0:
+            plt.figure(figsize=(12, 6), dpi=300)
+            plt.plot(EEG[19, :10000], "b.-", label="Orig EEG")
+            plt.plot(EEG_unet[19, :10000], "g.-", label="U-Net")
+            plt.legend()
+            plt.title("BCG Unet")
+            plt.xlabel("Time (samples)")
+            plot = os.path.join(task, str(i) + ".png")
+            plt.savefig(plot)
+
+    return outputs, plot
 
 
 def main():
@@ -77,8 +98,23 @@ def main():
                 label="One Cycle Scheduler",
                 value=True,
             ),
+            gr.Textbox(
+                label="Variable name for ECG (input)",
+                value="ECG",
+            ),
+            gr.Textbox(
+                label="Variable name for BCG corropted EEG (input)",
+                value="EEG_before_bcg",
+            ),
+            gr.Textbox(
+                label="Variable name for clean EEG (output)",
+                value="EEG_clean",
+            ),
         ],
-        outputs=[gr.File(label="Output File", file_count="multiple")],
+        outputs=[
+            gr.File(label="Output File", file_count="multiple"),
+            gr.Image(label="Output Image", type="filepath"),
+        ],
         allow_flagging="never",
     )
 
