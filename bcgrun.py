@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.io import savemat
 import h5py
-from bcgunet import bcgunet
+from unet import bcgunet
 import argparse
 import platform
 import os

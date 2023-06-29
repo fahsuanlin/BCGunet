@@ -19,6 +19,7 @@ pywavelets = "^1.4.1"
 matplotlib = "^3.7.0"
 tqdm = "^4.64.1"
 gradio = "^3.27.0"
+mat73 = "^0.60"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.1.0"
