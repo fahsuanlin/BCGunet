@@ -42,6 +42,9 @@ def main():
     parser.add_argument("input", nargs="+", type=str, help="Input mat file")
     parser.add_argument("-o", "--output", default=None, help="Output Path")
     parser.add_argument(
+        "-f", "--frequency", default=5000, type=int, help="Sampling frequency"
+    )
+    parser.add_argument(
         "-i", "--iteration", default=5000, type=int, help="Number of iterations"
     )
     parser.add_argument(
@@ -125,6 +128,7 @@ def main():
             winsize_sec=args.window_size,
             lr=args.learning_rate,
             onecycle=not args.no_one_cycle,
+            sfreq=args.frequency,
         )
         result = dict()
         result[args.eeg] = EEG_unet

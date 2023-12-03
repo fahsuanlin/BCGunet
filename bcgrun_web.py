@@ -18,6 +18,7 @@ os.makedirs(dir, exist_ok=True)
 
 def run(
     files: list[bytes],
+    sfreq: int,
     lr: float,
     winsec: int,
     iters: int,
@@ -49,6 +50,7 @@ def run(
             winsize_sec=winsec,
             lr=lr,
             onecycle=onecycle,
+            sfreq=sfreq,
         )
         result = dict()
         result[eeg] = EEG_unet
@@ -57,9 +59,10 @@ def run(
         outputs.append(output)
 
         if i == 0:
+            double_sfreq = sfreq * 2
             plt.figure(figsize=(12, 6), dpi=300)
-            plt.plot(EEG[19, :10000], "b.-", label="Orig EEG")
-            plt.plot(EEG_unet[19, :10000], "g.-", label="U-Net")
+            plt.plot(EEG[19, :double_sfreq], "b.-", label="Orig EEG")
+            plt.plot(EEG_unet[19, :double_sfreq], "g.-", label="U-Net")
             plt.legend()
             plt.title("BCG Unet")
             plt.xlabel("Time (samples)")
@@ -69,11 +72,13 @@ def run(
     return outputs, plot
 
 matlab_file_spec = """
-ECG Data (input_ecg): 1D Numeric Array.
-This array should contain the raw electrocardiogram (ECG) data in shape of (n_points,). The sampling frequency should be 5000 Hz.
+ECG Data: The raw ECG data collected inside the MRI scanner.
+This array should contain the raw electrocardiogram (ECG) data in shape of (n_points, 1).
 
-EEG Data (input_eeg): 2D Numeric Array.
-Each row corresponds to an EEG channel, and each column corresponds to a time point. We expect 64 EEG channels and 5000 Hz sampling frequency. The shape of the array should be (64, n_points).
+EEG Data: The raw EEG data collected inside the MRI scanner.
+Each row corresponds to an EEG channel, and each column corresponds to a time point. We expect 31 EEG channels. The shape of the array should be (n_points, 31).
+
+P.S. n_points = sampling frequency * recording time (in seconds)
 """
 
 def main():
@@ -88,6 +93,14 @@ def main():
                 file_types=["mat"],
                 file_count=["multiple", "directory"],
                 info="Upload MATLAB .mat files. You can specify in-file variable names in the options below.",
+            ),
+            gr.Slider(
+                label="Sampling Frequency",
+                minimum=100,
+                maximum=10000,
+                step=100,
+                value=5000,
+                info="The sampling frequency of the EEG and ECG data. (Hz)",
             ),
             gr.Slider(
                 label="Learning Rate",
